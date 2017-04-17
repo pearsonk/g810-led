@@ -559,7 +559,11 @@ bool LedKeyboard::setNativeEffect(NativeEffect effect, NativeEffectPart part, ui
 	uint8_t protocolByte = 0;
 	
 	switch (m_keyboardModel) {
-		case KeyboardModel::g213: // Unconfirmed
+		case KeyboardModel::g213:
+			protocolByte = 0x0c;
+
+			if (part == NativeEffectPart::logo) return false; //Does not have logo component
+			break;
 		case KeyboardModel::g410:
 		case KeyboardModel::g610: // Unconfirmed
 		case KeyboardModel::g810:
