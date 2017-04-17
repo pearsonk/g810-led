@@ -231,6 +231,8 @@ LedKeyboard::KeyboardModel LedKeyboard::getKeyboardModel() {
 bool LedKeyboard::commit() {
 	byte_buffer_t data;
 	switch (m_keyboardModel) {
+		case KeyboardModel::g213:
+			break;
 		case KeyboardModel::g410:
 		case KeyboardModel::g610:
 		case KeyboardModel::g810:
@@ -429,18 +431,25 @@ bool LedKeyboard::setGroupKeys(KeyGroup keyGroup, LedKeyboard::Color color) {
 }
 
 bool LedKeyboard::setAllKeys(LedKeyboard::Color color) {
-	KeyValueArray keyValues;
-	for (uint8_t i = 0; i < keyGroupLogo.size(); i++) keyValues.push_back({keyGroupLogo[i], color});
-	for (uint8_t i = 0; i < keyGroupIndicators.size(); i++) keyValues.push_back({keyGroupIndicators[i], color});
-	for (uint8_t i = 0; i < keyGroupMultimedia.size(); i++) keyValues.push_back({keyGroupMultimedia[i], color});
-	for (uint8_t i = 0; i < keyGroupGKeys.size(); i++) keyValues.push_back({keyGroupGKeys[i], color});
-	for (uint8_t i = 0; i < keyGroupFKeys.size(); i++) keyValues.push_back({keyGroupFKeys[i], color});
-	for (uint8_t i = 0; i < keyGroupFunctions.size(); i++) keyValues.push_back({keyGroupFunctions[i], color});
-	for (uint8_t i = 0; i < keyGroupArrows.size(); i++) keyValues.push_back({keyGroupArrows[i], color});
-	for (uint8_t i = 0; i < keyGroupNumeric.size(); i++) keyValues.push_back({keyGroupNumeric[i], color});
-	for (uint8_t i = 0; i < keyGroupModifiers.size(); i++) keyValues.push_back({keyGroupModifiers[i], color});
-	for (uint8_t i = 0; i < keyGroupKeys.size(); i++) keyValues.push_back({keyGroupKeys[i], color});
-	return setKeys(keyValues);
+	switch (m_keyboardModel) {
+		case KeyboardModel::g213:
+			for (unsigned char rIndex=0x01; rIndex <= 0x05; rIndex++) setRegion(rIndex,color);
+			break;
+		default:
+			KeyValueArray keyValues;
+			for (uint8_t i = 0; i < keyGroupLogo.size(); i++) keyValues.push_back({keyGroupLogo[i], color});
+			for (uint8_t i = 0; i < keyGroupIndicators.size(); i++) keyValues.push_back({keyGroupIndicators[i], color});
+			for (uint8_t i = 0; i < keyGroupMultimedia.size(); i++) keyValues.push_back({keyGroupMultimedia[i], color});
+			for (uint8_t i = 0; i < keyGroupGKeys.size(); i++) keyValues.push_back({keyGroupGKeys[i], color});
+			for (uint8_t i = 0; i < keyGroupFKeys.size(); i++) keyValues.push_back({keyGroupFKeys[i], color});
+			for (uint8_t i = 0; i < keyGroupFunctions.size(); i++) keyValues.push_back({keyGroupFunctions[i], color});
+			for (uint8_t i = 0; i < keyGroupArrows.size(); i++) keyValues.push_back({keyGroupArrows[i], color});
+			for (uint8_t i = 0; i < keyGroupNumeric.size(); i++) keyValues.push_back({keyGroupNumeric[i], color});
+			for (uint8_t i = 0; i < keyGroupModifiers.size(); i++) keyValues.push_back({keyGroupModifiers[i], color});
+			for (uint8_t i = 0; i < keyGroupKeys.size(); i++) keyValues.push_back({keyGroupKeys[i], color});
+			return setKeys(keyValues);
+	}
+	return false;
 }
 
 
@@ -510,10 +519,25 @@ bool LedKeyboard::setGKeysMode(uint8_t value) {
 	return false;
 }
 
+bool LedKeyboard::setRegion(unsigned char region, LedKeyboard::Color color) {
+	LedKeyboard::byte_buffer_t data;
+	switch (m_keyboardModel) {
+		case KeyboardModel::g213:
+			data = {0x11, 0xff, 0x0c, 0x3a, region, 0x01, color.red, color.green, color.blue };
+			data.resize(20,0x00);
+			return sendDataInternal(data);
+			break;
+		default:
+			break;
+	}
+
+	return false;
+}
 
 bool LedKeyboard::setStartupMode(StartupMode startupMode) {
 	byte_buffer_t data;
 	switch (m_keyboardModel) {
+		case KeyboardModel::g213: // Unconfirmed
 		case KeyboardModel::g410:
 		case KeyboardModel::g610:
 		case KeyboardModel::g810:
@@ -535,6 +559,7 @@ bool LedKeyboard::setNativeEffect(NativeEffect effect, NativeEffectPart part, ui
 	uint8_t protocolByte = 0;
 	
 	switch (m_keyboardModel) {
+		case KeyboardModel::g213: // Unconfirmed
 		case KeyboardModel::g410:
 		case KeyboardModel::g610: // Unconfirmed
 		case KeyboardModel::g810:
@@ -653,6 +678,7 @@ bool LedKeyboard::sendDataInternal(byte_buffer_t &data) {
 
 LedKeyboard::byte_buffer_t LedKeyboard::getKeyGroupAddress(LedKeyboard::KeyAddressGroup keyAddressGroup) {
 	switch (m_keyboardModel) {
+		case KeyboardModel::g213:
 		case KeyboardModel::g410:
 		case KeyboardModel::g610:
 		case KeyboardModel::g810:
