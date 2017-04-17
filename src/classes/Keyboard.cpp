@@ -537,7 +537,7 @@ bool LedKeyboard::setRegion(unsigned char region, LedKeyboard::Color color) {
 bool LedKeyboard::setStartupMode(StartupMode startupMode) {
 	byte_buffer_t data;
 	switch (m_keyboardModel) {
-		case KeyboardModel::g213: // Unconfirmed
+		case KeyboardModel::g213:
 		case KeyboardModel::g410:
 		case KeyboardModel::g610:
 		case KeyboardModel::g810:
