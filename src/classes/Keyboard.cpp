@@ -232,7 +232,7 @@ bool LedKeyboard::commit() {
 	byte_buffer_t data;
 	switch (m_keyboardModel) {
 		case KeyboardModel::g213:
-			break;
+			break; // Keyboard is non-transactional
 		case KeyboardModel::g410:
 		case KeyboardModel::g610:
 		case KeyboardModel::g810:
@@ -431,12 +431,18 @@ bool LedKeyboard::setGroupKeys(KeyGroup keyGroup, LedKeyboard::Color color) {
 }
 
 bool LedKeyboard::setAllKeys(LedKeyboard::Color color) {
+	KeyValueArray keyValues;
+
 	switch (m_keyboardModel) {
 		case KeyboardModel::g213:
-			for (uint8_t rIndex=0x01; rIndex <= 0x05; rIndex++) setRegion(rIndex,color);
-			break;
-		default:
-			KeyValueArray keyValues;
+			for (uint8_t rIndex=0x01; rIndex <= 0x05; rIndex++) {
+				if (! setRegion(rIndex,color)) return false;
+			}
+			return true;
+		case KeyboardModel::g410:
+		case KeyboardModel::g610:
+		case KeyboardModel::g810:
+		case KeyboardModel::g910:
 			for (uint8_t i = 0; i < keyGroupLogo.size(); i++) keyValues.push_back({keyGroupLogo[i], color});
 			for (uint8_t i = 0; i < keyGroupIndicators.size(); i++) keyValues.push_back({keyGroupIndicators[i], color});
 			for (uint8_t i = 0; i < keyGroupMultimedia.size(); i++) keyValues.push_back({keyGroupMultimedia[i], color});
@@ -448,6 +454,8 @@ bool LedKeyboard::setAllKeys(LedKeyboard::Color color) {
 			for (uint8_t i = 0; i < keyGroupModifiers.size(); i++) keyValues.push_back({keyGroupModifiers[i], color});
 			for (uint8_t i = 0; i < keyGroupKeys.size(); i++) keyValues.push_back({keyGroupKeys[i], color});
 			return setKeys(keyValues);
+		default:
+			return false;
 	}
 	return false;
 }
@@ -683,6 +691,7 @@ bool LedKeyboard::sendDataInternal(byte_buffer_t &data) {
 LedKeyboard::byte_buffer_t LedKeyboard::getKeyGroupAddress(LedKeyboard::KeyAddressGroup keyAddressGroup) {
 	switch (m_keyboardModel) {
 		case KeyboardModel::g213:
+		  return {}; // Device doesn't support per-key setting
 		case KeyboardModel::g410:
 		case KeyboardModel::g610:
 		case KeyboardModel::g810:
