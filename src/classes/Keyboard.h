@@ -146,7 +146,7 @@ class LedKeyboard {
 		bool setMNKey(uint8_t value);
 		bool setGKeysMode(uint8_t value);
 		
-		bool setRegion(unsigned char region, Color color);
+		bool setRegion(uint8_t region, Color color);
 		bool setStartupMode(StartupMode startupMode);
 		
 		bool setNativeEffect(NativeEffect effect, NativeEffectPart part, uint8_t speed, Color color);

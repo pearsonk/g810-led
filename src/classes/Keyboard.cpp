@@ -433,7 +433,7 @@ bool LedKeyboard::setGroupKeys(KeyGroup keyGroup, LedKeyboard::Color color) {
 bool LedKeyboard::setAllKeys(LedKeyboard::Color color) {
 	switch (m_keyboardModel) {
 		case KeyboardModel::g213:
-			for (unsigned char rIndex=0x01; rIndex <= 0x05; rIndex++) setRegion(rIndex,color);
+			for (uint8_t rIndex=0x01; rIndex <= 0x05; rIndex++) setRegion(rIndex,color);
 			break;
 		default:
 			KeyValueArray keyValues;
@@ -519,7 +519,7 @@ bool LedKeyboard::setGKeysMode(uint8_t value) {
 	return false;
 }
 
-bool LedKeyboard::setRegion(unsigned char region, LedKeyboard::Color color) {
+bool LedKeyboard::setRegion(uint8_t region, LedKeyboard::Color color) {
 	LedKeyboard::byte_buffer_t data;
 	switch (m_keyboardModel) {
 		case KeyboardModel::g213:
