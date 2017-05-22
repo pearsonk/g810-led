@@ -14,13 +14,14 @@
 
 using namespace std;
 
-
+LedKeyboard::LedKeyboard() {
+}
 
 LedKeyboard::~LedKeyboard() {
 	close();
 }
 
-
+/*
 vector<LedKeyboard::DeviceInfo> LedKeyboard::listKeyboards() {
 	vector<LedKeyboard::DeviceInfo> deviceList;
 
@@ -114,12 +115,24 @@ vector<LedKeyboard::DeviceInfo> LedKeyboard::listKeyboards() {
 	
 	return deviceList;
 }
+*/
 
 
 bool LedKeyboard::isOpen() {
 	return m_isOpen;
 }
 
+bool LedKeyboard::isSupported(uint16_t vendorID, uint16_t productID) {
+	for (unsigned int index=0; index<supportedDevices.size(); index++) {
+		DeviceInfo supportedDevice = supportedDevices.at(index);
+		if (supportedDevice.vendorID == vendorID && 
+				supportedDevice.productID == productID)
+			return true;
+	}
+	return false;
+}
+
+/*
 bool LedKeyboard::open() {
 	if (m_isOpen) return true;
 	
@@ -128,7 +141,7 @@ bool LedKeyboard::open() {
 
 bool LedKeyboard::open(uint16_t vendorID, uint16_t productID, string serial) {
 	if (m_isOpen && ! close()) return false;
-	currentDevice.model = KeyboardModel::unknown;
+	//currentDevice.model = KeyboardModel::unknown;
 
 	#if defined(hidapi)
 		if (hid_init() < 0) return false;
@@ -145,6 +158,7 @@ bool LedKeyboard::open(uint16_t vendorID, uint16_t productID, string serial) {
 		}
 
 		while (dev) {
+			
 			for (int i=0; i<(int)SupportedKeyboards.size(); i++) {
 				if (dev->vendor_id == SupportedKeyboards[i][0] && dev->product_id == SupportedKeyboards[i][1]) {
 					if (!serial.empty() && dev->serial_number != NULL && wideSerial.compare(dev->serial_number) != 0) break; //Serial didn't match
@@ -176,13 +190,14 @@ bool LedKeyboard::open(uint16_t vendorID, uint16_t productID, string serial) {
 				}
 			}
 			if (currentDevice.model != KeyboardModel::unknown) break;
+			
 			dev = dev->next;
 		}
 
 		hid_free_enumeration(devs);
 
 		if (! dev) {
-			currentDevice.model = KeyboardModel::unknown;
+//			currentDevice.model = KeyboardModel::unknown;
 			hid_exit();
 			return false;
 		}
@@ -223,6 +238,7 @@ bool LedKeyboard::open(uint16_t vendorID, uint16_t productID, string serial) {
 
 					if (libusb_get_string_descriptor_ascii(m_hidHandle, desc.iSerialNumber, buf, 256) >= 1 && serial.compare((char*)buf) == 0) {
 						//Make sure entry is a supported keyboard and get model
+						
 						for (int i=0; i<(int)SupportedKeyboards.size(); i++) {
 							if (desc.idVendor == SupportedKeyboards[i][0]) {
 								if (desc.idProduct == SupportedKeyboards[i][1]) {
@@ -240,6 +256,7 @@ bool LedKeyboard::open(uint16_t vendorID, uint16_t productID, string serial) {
 								}
 							}
 						}
+						
 					}
 					else {
 						libusb_close(m_hidHandle);
@@ -249,6 +266,9 @@ bool LedKeyboard::open(uint16_t vendorID, uint16_t productID, string serial) {
 				}
 
 				//For the case where serial is not specified, find first supported device
+
+				
+
 				for (int i=0; i<(int)SupportedKeyboards.size(); i++) {
 					if (desc.idVendor == SupportedKeyboards[i][0]) {
 						if (desc.idProduct == SupportedKeyboards[i][1]) {
@@ -271,9 +291,11 @@ bool LedKeyboard::open(uint16_t vendorID, uint16_t productID, string serial) {
 					}
 				}
 				if (currentDevice.model != KeyboardModel::unknown) break;
+
 			}
 			libusb_free_device_list(devs, 1);
 		}
+
 
 		if (currentDevice.model == KeyboardModel::unknown) {
 			libusb_exit(m_ctx);
@@ -314,10 +336,36 @@ bool LedKeyboard::open(uint16_t vendorID, uint16_t productID, string serial) {
 	#endif
 
 	return false; //In case neither is defined
+}*/
+
+#if defined(hidapi)
+bool LedKeyboard::initialize(hid_device* handle) {
+  if (isOpen() || handle == NULL) return false;
+
+  m_hidHandle = handle;
+	m_isOpen = true;
+
+  return true;
 }
+#elif defined(libusb)
+bool LedKeybaord::initialize(libusb_context* context, libusb_device_handle* handle) {
+	if (isOpen() || context == NULL || handle == NULL) return false;
+
+	m_ctx = context;
+	m_hidHandle = handle;
+	m_isOpen = true;
+
+	return true;
+}
+#endif
 
 LedKeyboard::DeviceInfo LedKeyboard::getCurrentDevice() {
 	return currentDevice;
+}
+
+std::vector<LedKeyboard::DeviceInfo> LedKeyboard::getSupportedDevices() {
+	std::vector<LedKeyboard::DeviceInfo> copy = std::vector<LedKeyboard::DeviceInfo>(supportedDevices);
+	return copy;
 }
 
 bool LedKeyboard::close() {
@@ -346,11 +394,12 @@ bool LedKeyboard::close() {
 	return false;
 }
 
-
+/*
 LedKeyboard::KeyboardModel LedKeyboard::getKeyboardModel() {
 	return currentDevice.model;
-}
+}*/
 
+/*
 bool LedKeyboard::commit() {
 	byte_buffer_t data;
 	switch (currentDevice.model) {
@@ -370,12 +419,14 @@ bool LedKeyboard::commit() {
 	}
 	data.resize(20, 0x00);
 	return sendDataInternal(data);
-}
+}*/
 
+/*
 bool LedKeyboard::setKey(LedKeyboard::KeyValue keyValue) {
 	return setKeys(KeyValueArray {keyValue});
-}
+}*/
 
+/*
 bool LedKeyboard::setKeys(KeyValueArray keyValues) {
 	if (keyValues.empty()) return false;
 	
@@ -510,8 +561,9 @@ bool LedKeyboard::setKeys(KeyValueArray keyValues) {
 		}
 	}
 	return retval;
-}
+}*/
 
+/*
 bool LedKeyboard::setGroupKeys(KeyGroup keyGroup, LedKeyboard::Color color) {
 	KeyValueArray keyValues;
 	
@@ -555,8 +607,9 @@ bool LedKeyboard::setGroupKeys(KeyGroup keyGroup, LedKeyboard::Color color) {
 	for (uint8_t i = 0; i < keyArray.size(); i++) keyValues.push_back({keyArray[i], color});
 	
 	return setKeys(keyValues);
-}
+}*/
 
+/*
 bool LedKeyboard::setAllKeys(LedKeyboard::Color color) {
 	KeyValueArray keyValues;
 
@@ -584,9 +637,9 @@ bool LedKeyboard::setAllKeys(LedKeyboard::Color color) {
 			return false;
 	}
 	return false;
-}
+}*/
 
-
+/*
 bool LedKeyboard::setMRKey(uint8_t value) {
 	LedKeyboard::byte_buffer_t data;
 	switch (currentDevice.model) {
@@ -605,8 +658,9 @@ bool LedKeyboard::setMRKey(uint8_t value) {
 			break;
 	}
 	return false;
-}
+}*/
 
+/*
 bool LedKeyboard::setMNKey(uint8_t value) {
 	LedKeyboard::byte_buffer_t data;
 	switch (currentDevice.model) {
@@ -631,8 +685,9 @@ bool LedKeyboard::setMNKey(uint8_t value) {
 			break;
 	}
 	return false;
-}
+}*/
 
+/*
 bool LedKeyboard::setGKeysMode(uint8_t value) {
 	LedKeyboard::byte_buffer_t data;
 	switch (currentDevice.model) {
@@ -651,8 +706,9 @@ bool LedKeyboard::setGKeysMode(uint8_t value) {
 			break;
 	}
 	return false;
-}
+}*/
 
+/*
 bool LedKeyboard::setRegion(uint8_t region, LedKeyboard::Color color) {
 	LedKeyboard::byte_buffer_t data;
 	switch (currentDevice.model) {
@@ -666,8 +722,9 @@ bool LedKeyboard::setRegion(uint8_t region, LedKeyboard::Color color) {
 	}
 
 	return false;
-}
+} */
 
+/*
 bool LedKeyboard::setStartupMode(StartupMode startupMode) {
 	byte_buffer_t data;
 	switch (currentDevice.model) {
@@ -688,8 +745,9 @@ bool LedKeyboard::setStartupMode(StartupMode startupMode) {
 	data.resize(20, 0x00);
 	return sendDataInternal(data);
 }
+*/
 
-
+/*
 bool LedKeyboard::setNativeEffect(NativeEffect effect, NativeEffectPart part, uint8_t speed, Color color) {
 	uint8_t protocolByte = 0;
 	
@@ -778,8 +836,9 @@ bool LedKeyboard::setNativeEffect(NativeEffect effect, NativeEffectPart part, ui
 	data.resize(20, 0x00);
 	return sendDataInternal(data);
 }
+*/
 
-
+/*
 bool LedKeyboard::sendDataInternal(byte_buffer_t &data) {
 	if (! m_isOpen) return false;
 	
@@ -814,7 +873,9 @@ bool LedKeyboard::sendDataInternal(byte_buffer_t &data) {
 	
 	return false;
 }
+*/
 
+/*
 LedKeyboard::byte_buffer_t LedKeyboard::getKeyGroupAddress(LedKeyboard::KeyAddressGroup keyAddressGroup) {
 	switch (currentDevice.model) {
 		case KeyboardModel::g213:
@@ -855,3 +916,4 @@ LedKeyboard::byte_buffer_t LedKeyboard::getKeyGroupAddress(LedKeyboard::KeyAddre
 	}
 	return {};
 }
+*/
