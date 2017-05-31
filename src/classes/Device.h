@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <vector>
+#include <unordered_map>
 #include <linux/input.h>
 
 #if defined(hidapi)
@@ -51,9 +52,13 @@ class LedDevice {
 		DeviceInfo getCurrentDevice();
 		bool close();
 		std::vector<DeviceInfo> getSupportedDevices();
+    std::vector<std::string> getLEDs();
+    std::vector<std::string> getLEDGroups();
+    std::unordered_map<std::string, uint16_t> getLEDMap();
+    std::unordered_map<std::string, std::vector<uint16_t>> getLEDGroupMap();
 		
-		virtual bool setLED(LEDValue keyValue)= 0;
-		virtual bool setLEDs(LEDValueArray keyValues) = 0;
+		virtual bool setLED(LEDValue value)= 0;
+		virtual bool setLEDs(LEDValueArray values) = 0;
 		virtual bool setAllLEDs(Color color) = 0;
 		virtual bool commit() = 0;
 		
@@ -72,6 +77,8 @@ class LedDevice {
 		DeviceInfo currentDevice;
 		bool m_isOpen = false;
 		std::vector<DeviceInfo> supportedDevices;
+    std::unordered_map<std::string, uint16_t> LEDMap;
+    std::unordered_map<std::string, std::vector<uint16_t>> LEDGroupMap;
 };
 
 #endif

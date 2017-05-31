@@ -3,6 +3,7 @@
 #include <iostream>
 #include <unistd.h>
 #include <vector>
+#include <unordered_map>
 
 #if defined(hidapi)
 	#include <locale>
@@ -11,14 +12,37 @@
 	#include "libusb-1.0/libusb.h"
 #endif
 
-
-using namespace std;
-
 LedDevice::LedDevice() {
 }
 
 LedDevice::~LedDevice() {
 	close();
+}
+
+std::unordered_map<std::string, uint16_t> LedDevice::getLEDMap() {
+	std::unordered_map<std::string, uint16_t> copy = std::unordered_map<std::string, uint16_t>(LEDMap);
+	return copy;
+}
+
+std::unordered_map<std::string, std::vector<uint16_t>> LedDevice::getLEDGroupMap() {
+	std::unordered_map<std::string, std::vector<uint16_t>> copy = std::unordered_map<std::string, std::vector<uint16_t>>(LEDGroupMap);
+	return copy;
+}
+
+std::vector<std::string> LedDevice::getLEDs() {
+	std::vector<std::string> keys;
+	for (auto iterator :  LEDMap) {
+		keys.push_back(iterator.first);
+	}
+	return keys;
+}
+
+std::vector<std::string> LedDevice::getLEDGroups() {
+	std::vector<std::string> keys;
+	for (auto iterator :  LEDGroupMap) {
+		keys.push_back(iterator.first);
+	}
+	return keys;
 }
 
 bool LedDevice::isOpen() {
