@@ -1,9 +1,9 @@
 #ifndef KEYBOARD_LOGITECH_CLASS
 #define KEYBOARD_LOGITECH_CLASS
 
-#include "Keyboard.h"
+#include "Device.h"
 
-class LogitechKeyboard : public LedKeyboard {
+class LogitechDevice : public LedDevice {
 	public:
 		enum class StartupMode : uint8_t {
 			wave = 0x01,
@@ -33,17 +33,6 @@ class LogitechKeyboard : public LedKeyboard {
 
 	private:
 
-		/*
-		enum class KeyboardModel : uint8_t {
-			unknown = 0x00,
-			g213,
-			g410,
-			g610,
-			g810,
-			g910,
-			gpro
-		};*/
-		
 	protected:
 		typedef std::vector<unsigned char> byte_buffer_t;
 		virtual bool sendDataInternal(byte_buffer_t &data) = 0;

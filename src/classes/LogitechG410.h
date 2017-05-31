@@ -10,7 +10,7 @@ class LogitechG410 : public LogitechPerKeyLED {
 
 		LogitechG410(uint16_t vendorID, uint16_t productID, std::string serial);
 	
-    bool hasNativeEffectPart(LogitechKeyboard::NativeEffectPart part) override;
+    bool hasNativeEffectPart(LogitechDevice::NativeEffectPart part) override;
 		bool setMRKey(uint8_t value) override;	
 		bool setMNKey(uint8_t value) override;
 		bool setGKeysMode(uint8_t value) override;

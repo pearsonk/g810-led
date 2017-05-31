@@ -40,7 +40,7 @@ bool LogitechG410::setGKeysMode(uint8_t value)
 	return false;
 }
 
-bool LogitechG410::setRegion(uint8_t region, LedKeyboard::Color color) {
+bool LogitechG410::setRegion(uint8_t region, LedDevice::Color color) {
 	return false;
 }
 

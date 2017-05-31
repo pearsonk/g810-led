@@ -12,11 +12,11 @@
 #endif
 
 
-class LedKeyboard {
+class LedDevice {
 	
 	public:
-		LedKeyboard();
-		virtual ~LedKeyboard() = 0;
+		LedDevice();
+		virtual ~LedDevice() = 0;
 
 		typedef struct {
 			uint16_t vendorID = 0x0;

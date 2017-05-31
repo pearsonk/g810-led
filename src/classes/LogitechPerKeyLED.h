@@ -1,9 +1,9 @@
 #ifndef KEYBOARD_LOGITECH_PERKEY_CLASS
 #define KEYBOARD_LOGITECH_PERKEY_CLASS
 
-#include "LogitechKeyboard.h"
+#include "LogitechDevice.h"
 
-class LogitechPerKeyLED : public LogitechKeyboard {
+class LogitechPerKeyLED : public LogitechDevice {
 
 	public:
 		enum class KeyAddressGroup : uint8_t {
@@ -68,7 +68,7 @@ class LogitechPerKeyLED : public LogitechKeyboard {
 		
 /*		struct KeyValue {
 			Key key;
-			LedKeyboard::Color color;
+			LedDevice::Color color;
 		};*/
 
 		Key getKey(uint16_t scanCode);

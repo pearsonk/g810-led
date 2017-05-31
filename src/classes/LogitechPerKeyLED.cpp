@@ -1,6 +1,6 @@
 #include "LogitechPerKeyLED.h"
 
-bool LogitechPerKeyLED::setAllKeys(LedKeyboard::Color color) {
+bool LogitechPerKeyLED::setAllKeys(LedDevice::Color color) {
 	KeyValueArray keyValues;
 
 	for (uint8_t i = 0; i < keyGroupLogo.size(); i++) keyValues.push_back({keyGroupLogo[i], color});
@@ -16,7 +16,7 @@ bool LogitechPerKeyLED::setAllKeys(LedKeyboard::Color color) {
 	return setKeys(keyValues);	
 }
 
-bool LogitechPerKeyLED::setGroupKeys(KeyGroup keyGroup, LedKeyboard::Color color) {
+bool LogitechPerKeyLED::setGroupKeys(KeyGroup keyGroup, LedDevice::Color color) {
 	KeyValueArray keyValues;
 	
 	KeyArray keyArray;
@@ -281,6 +281,6 @@ LogitechPerKeyLED::byte_buffer_t LogitechPerKeyLED::getKeyGroupAddress(LogitechP
 	return {};
 }
 
-bool setRegion(uint8_t region, LedKeyboard::Color color) {
+bool setRegion(uint8_t region, LedDevice::Color color) {
 	return false;
 }

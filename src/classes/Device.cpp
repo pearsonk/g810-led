@@ -1,4 +1,4 @@
-#include "Keyboard.h"
+#include "Device.h"
 
 #include <iostream>
 #include <unistd.h>
@@ -14,18 +14,18 @@
 
 using namespace std;
 
-LedKeyboard::LedKeyboard() {
+LedDevice::LedDevice() {
 }
 
-LedKeyboard::~LedKeyboard() {
+LedDevice::~LedDevice() {
 	close();
 }
 
-bool LedKeyboard::isOpen() {
+bool LedDevice::isOpen() {
 	return m_isOpen;
 }
 
-bool LedKeyboard::isSupported(uint16_t vendorID, uint16_t productID) {
+bool LedDevice::isSupported(uint16_t vendorID, uint16_t productID) {
 	for (unsigned int index=0; index<supportedDevices.size(); index++) {
 		DeviceInfo supportedDevice = supportedDevices.at(index);
 		if (supportedDevice.vendorID == vendorID && 
@@ -36,7 +36,7 @@ bool LedKeyboard::isSupported(uint16_t vendorID, uint16_t productID) {
 }
 
 #if defined(hidapi)
-bool LedKeyboard::initialize(hid_device* handle) {
+bool LedDevice::initialize(hid_device* handle) {
   if (isOpen() || handle == NULL) return false;
 
   m_hidHandle = handle;
@@ -56,17 +56,17 @@ bool LedKeybaord::initialize(libusb_context* context, libusb_device_handle* hand
 }
 #endif
 
-LedKeyboard::DeviceInfo LedKeyboard::getCurrentDevice() {
+LedDevice::DeviceInfo LedDevice::getCurrentDevice() {
 	return currentDevice;
 }
 
-std::vector<LedKeyboard::DeviceInfo> LedKeyboard::getSupportedDevices() {
-	std::vector<LedKeyboard::DeviceInfo> copy = std::vector<LedKeyboard::DeviceInfo>(supportedDevices);
+std::vector<LedDevice::DeviceInfo> LedDevice::getSupportedDevices() {
+	std::vector<LedDevice::DeviceInfo> copy = std::vector<LedDevice::DeviceInfo>(supportedDevices);
 	return copy;
 }
 
 #if defined(hidapi)
-bool LedKeyboard::close() {
+bool LedDevice::close() {
 	if (! m_isOpen) return true;
 	m_isOpen = false;
 	
@@ -77,7 +77,7 @@ bool LedKeyboard::close() {
 }
 
 #elif defined(libusb)
-bool LedKeyboard::close() {
+bool LedDevice::close() {
 	if (! m_isOpen) return true;
 	m_isOpen = false;
 

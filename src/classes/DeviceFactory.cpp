@@ -1,5 +1,5 @@
-#include "KeyboardFactory.h"
-#include "Keyboard.h"
+#include "DeviceFactory.h"
+#include "Device.h"
 
 #include <vector>
 #include <string>
@@ -11,12 +11,12 @@
 	#include "libusb-1.0/libusb.h"
 #endif
 
-//Keyboard classes
+// Logitech classes
 #include "LogitechG410.h"
 
 
-std::vector<LedKeyboard*> LedKeyboardFactory::getInstances() {
-	std::vector<LedKeyboard*> keyboards;
+std::vector<LedDevice*> LedDeviceFactory::getInstances() {
+	std::vector<LedDevice*> keyboards;
 
 	// Add device instances here
 	keyboards.push_back(new LogitechG410());
@@ -26,7 +26,7 @@ std::vector<LedKeyboard*> LedKeyboardFactory::getInstances() {
 
 #if defined(hidapi)
 
-void LedKeyboardFactory::setDeviceInfo(LedKeyboard::DeviceInfo deviceInfo, struct hid_device_info *dev) {
+void LedDeviceFactory::setDeviceInfo(LedDevice::DeviceInfo deviceInfo, struct hid_device_info *dev) {
 	deviceInfo.vendorID=dev->vendor_id;
 	deviceInfo.productID=dev->product_id;
 					
@@ -50,9 +50,9 @@ void LedKeyboardFactory::setDeviceInfo(LedKeyboard::DeviceInfo deviceInfo, struc
 	}
 }
 
-LedKeyboard* LedKeyboardFactory::getKeyboard(uint16_t vendorID, uint16_t productID, std::string serial) {
-	std::vector<LedKeyboard*> keyboards = getInstances();
-	LedKeyboard* matchedKeyboard = NULL;
+LedDevice* LedDeviceFactory::getDevice(uint16_t vendorID, uint16_t productID, std::string serial) {
+	std::vector<LedDevice*> keyboards = getInstances();
+	LedDevice* matchedDevice = NULL;
 
 	//Iterate USB devices to find a match
 	struct hid_device_info *devs, *dev;
@@ -69,15 +69,15 @@ LedKeyboard* LedKeyboardFactory::getKeyboard(uint16_t vendorID, uint16_t product
 	while (dev) {
 		//Iterate classes to find support
 		for (unsigned int index = 0; index < keyboards.size(); index++) {
-			LedKeyboard* keyboard = keyboards.at(index);
+			LedDevice* keyboard = keyboards.at(index);
 			if (keyboard->isSupported(dev->vendor_id, dev->product_id)) {
 				if (!serial.empty() && dev->serial_number != NULL && wideSerial.compare(dev->serial_number) != 0) break; //Serial didn't match
 
-				matchedKeyboard = keyboard;
+				matchedDevice = keyboard;
         wideSerial = std::wstring(dev->serial_number);
 			}
 		}
-		if (matchedKeyboard != NULL) break;
+		if (matchedDevice != NULL) break;
 		dev = dev->next;
 	} //End dev iteration loop
 	hid_free_enumeration(devs);
@@ -85,20 +85,20 @@ LedKeyboard* LedKeyboardFactory::getKeyboard(uint16_t vendorID, uint16_t product
 
 	//Clean up all keyboards except the match we will be returning
 	for (unsigned int index=0; index < keyboards.size(); index++) {
-		LedKeyboard* keyboard = keyboards.at(index);
-		if (keyboard != matchedKeyboard) delete keyboard;
+		LedDevice* keyboard = keyboards.at(index);
+		if (keyboard != matchedDevice) delete keyboard;
 	}
 
-	if (matchedKeyboard != NULL) {
-		matchedKeyboard->initialize(hid_open(dev->vendor_id, dev->product_id, wideSerial.c_str()));
+	if (matchedDevice != NULL) {
+		matchedDevice->initialize(hid_open(dev->vendor_id, dev->product_id, wideSerial.c_str()));
 	}
 
-	return matchedKeyboard;
+	return matchedDevice;
 }
 
-std::vector<LedKeyboard::DeviceInfo> LedKeyboardFactory::listAttachedKeyboards() {
-	std::vector<LedKeyboard*> keyboardClasses = getInstances();
-	std::vector<LedKeyboard::DeviceInfo> deviceList;
+std::vector<LedDevice::DeviceInfo> LedDeviceFactory::listAttachedDevices() {
+	std::vector<LedDevice*> keyboardClasses = getInstances();
+	std::vector<LedDevice::DeviceInfo> deviceList;
 
 	if (hid_init() < 0) return deviceList;
 		
@@ -107,10 +107,10 @@ std::vector<LedKeyboard::DeviceInfo> LedKeyboardFactory::listAttachedKeyboards()
 	dev = devs;
 	while (dev) {
 		for (unsigned int index = 0; index < keyboardClasses.size(); index++) {
-			LedKeyboard* keyboard = keyboardClasses.at(index);
+			LedDevice* keyboard = keyboardClasses.at(index);
 				
 			if (keyboard->isSupported(dev->vendor_id,dev->product_id)) {
-				LedKeyboard::DeviceInfo deviceInfo;
+				LedDevice::DeviceInfo deviceInfo;
 				
 				setDeviceInfo(deviceInfo,dev);
 
@@ -130,11 +130,11 @@ std::vector<LedKeyboard::DeviceInfo> LedKeyboardFactory::listAttachedKeyboards()
 }
 
 #elif defined(libusb)
-std::vector<LedKeyboard::DeviceInfo> LedKeyboardFactory::listAttachedKeyboards() {
-	std::vector<LedKeyboard*> keyboardClasses = getInstances();
-	std::vector<LedKeyboard::DeviceInfo> deviceList;
+std::vector<LedDevice::DeviceInfo> LedDeviceFactory::listAttachedDevices() {
+	std::vector<LedDevice*> keyboardClasses = getInstances();
+	std::vector<LedDevice::DeviceInfo> deviceList;
 
-//TODO:	Fix since no "SupportedKeyboards[][]"
+//TODO:	Fix since no "SupportedDevices[][]"
 		libusb_context *ctx = NULL;
 		if(libusb_init(&m_ctx) < 0) return deviceList;
 		
@@ -144,9 +144,9 @@ std::vector<LedKeyboard::DeviceInfo> LedKeyboardFactory::listAttachedKeyboards()
 			libusb_device *device = devs[i];
 			libusb_device_descriptor desc;
 			libusb_get_device_descriptor(device, &desc);
-			for (int i=0; i<(int)SupportedKeyboards.size(); i++) {
-				if (desc.idVendor == SupportedKeyboards[i][0]) {
-					if (desc.idProduct == SupportedKeyboards[i][1]) {
+			for (int i=0; i<(int)SupportedDevices.size(); i++) {
+				if (desc.idVendor == SupportedDevices[i][0]) {
+					if (desc.idProduct == SupportedDevices[i][1]) {
 					  unsigned char buf[256];
 						DeviceInfo deviceInfo;
 						deviceInfo.vendorID=desc.idVendor;
@@ -180,18 +180,18 @@ std::vector<LedKeyboard::DeviceInfo> LedKeyboardFactory::listAttachedKeyboards()
 #endif
 
 // Give a list of all supported keyboards. Will likely only populate vendor and device IDs.
-std::vector<LedKeyboard::DeviceInfo> LedKeyboardFactory::listSupportedKeyboards() {
-	std::vector<LedKeyboard::DeviceInfo> supportedKeyboards;
-	std::vector<LedKeyboard*> keyboards = getInstances();
+std::vector<LedDevice::DeviceInfo> LedDeviceFactory::listSupportedDevices() {
+	std::vector<LedDevice::DeviceInfo> supportedDevices;
+	std::vector<LedDevice*> keyboards = getInstances();
 
 	for (unsigned int index=0; index < keyboards.size(); index++) {
-		LedKeyboard* keyboard = keyboards.at(index);
-		std::vector<LedKeyboard::DeviceInfo> devices = keyboard->getSupportedDevices();
+		LedDevice* keyboard = keyboards.at(index);
+		std::vector<LedDevice::DeviceInfo> devices = keyboard->getSupportedDevices();
 		for (unsigned int deviceIndex=0; deviceIndex < devices.size(); deviceIndex++) {
-			supportedKeyboards.push_back(devices.at(deviceIndex));
+			supportedDevices.push_back(devices.at(deviceIndex));
 		}
 
 		delete keyboard;
 	}
-	return supportedKeyboards;
+	return supportedDevices;
 }
