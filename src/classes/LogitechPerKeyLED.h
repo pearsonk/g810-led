@@ -66,20 +66,15 @@ class LogitechPerKeyLED : public LogitechDevice {
 			uint16_t scanCode;
 		} KeyMap;
 		
-/*		struct KeyValue {
-			Key key;
-			LedDevice::Color color;
-		};*/
-
 		Key getKey(uint16_t scanCode);
 		bool setGroupKeys(KeyGroup keyGroup, Color color);
-		bool setKeys(KeyValueArray keyValues) override;
-		bool setKey(KeyValue keyValue) override;
+		bool setLEDs(LEDValueArray keyValues) override;
+		bool setLED(LEDValue keyValue) override;
 		bool setNativeEffect(NativeEffect effect, NativeEffectPart part, uint8_t speed, Color color) override;
 		bool commit() override;
 
 
-		bool setAllKeys(Color color) override;
+		bool setAllLEDs(Color color) override;
 
 	private:
 		std::vector<KeyMap> keyMap;
@@ -249,7 +244,7 @@ class LogitechPerKeyLED : public LogitechDevice {
 
 		byte_buffer_t getKeyGroupAddress(KeyAddressGroup keyAddressGroup);
 
-		virtual void getSortedKeys(KeyValueArray keyValues, std::vector<std::vector<KeyValue>>& sortedKeys) = 0;
+		virtual void getSortedKeys(LEDValueArray keyValues, std::vector<std::vector<LEDValue>>& sortedKeys) = 0;
 
 		bool sendDataInternal(byte_buffer_t &data) override;
     virtual bool hasNativeEffectPart(NativeEffectPart part) = 0;

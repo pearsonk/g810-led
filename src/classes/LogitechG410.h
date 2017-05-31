@@ -20,7 +20,7 @@ class LogitechG410 : public LogitechPerKeyLED {
 	private:
 
 	protected:
-		void getSortedKeys(LogitechPerKeyLED::KeyValueArray keyValues, std::vector<std::vector<LogitechPerKeyLED::KeyValue>>& sortedKeys) override;
+		void getSortedKeys(LogitechPerKeyLED::LEDValueArray keyValues, std::vector<std::vector<LogitechPerKeyLED::LEDValue>>& sortedKeys) override;
 };
 
 #endif

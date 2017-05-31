@@ -18,14 +18,14 @@ bool LogitechG410::setMNKey(uint8_t value) {
 	return false;
 }
 
-void LogitechG410::getSortedKeys(LogitechPerKeyLED::KeyValueArray keyValues, std::vector<std::vector<LogitechPerKeyLED::KeyValue>>& sortedKeys) {
-	for (uint8_t i = 0; i < keyValues.size(); i++) {
+void LogitechG410::getSortedKeys(LogitechPerKeyLED::LEDValueArray values, std::vector<std::vector<LogitechPerKeyLED::LEDValue>>& sortedKeys) {
+	for (uint8_t i = 0; i < values.size(); i++) {
 		//Simplify?
-		switch(static_cast<LogitechPerKeyLED::KeyAddressGroup>(static_cast<uint16_t>(keyValues[i].key) >> 8 )) {
+		switch(static_cast<LogitechPerKeyLED::KeyAddressGroup>(static_cast<uint16_t>(values[i].key) >> 8 )) {
 			case LogitechPerKeyLED::KeyAddressGroup::keys:
 				if (sortedKeys[4].size() <= 120) {
-					if (keyValues[i].key < (uint16_t)LogitechPerKeyLED::Key::num_lock || keyValues[i].key > (uint16_t)LogitechPerKeyLED::Key::num_dot) {
-						sortedKeys[4].push_back(keyValues[i]);
+					if (values[i].key < (uint16_t)LogitechPerKeyLED::Key::num_lock || values[i].key > (uint16_t)LogitechPerKeyLED::Key::num_dot) {
+						sortedKeys[4].push_back(values[i]);
 					}
 				}
 				break;

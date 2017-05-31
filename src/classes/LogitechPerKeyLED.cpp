@@ -1,7 +1,7 @@
 #include "LogitechPerKeyLED.h"
 
-bool LogitechPerKeyLED::setAllKeys(LedDevice::Color color) {
-	KeyValueArray keyValues;
+bool LogitechPerKeyLED::setAllLEDs(LedDevice::Color color) {
+	LEDValueArray keyValues;
 
 	for (uint8_t i = 0; i < keyGroupLogo.size(); i++) keyValues.push_back({keyGroupLogo[i], color});
 	for (uint8_t i = 0; i < keyGroupIndicators.size(); i++) keyValues.push_back({keyGroupIndicators[i], color});
@@ -13,11 +13,11 @@ bool LogitechPerKeyLED::setAllKeys(LedDevice::Color color) {
 	for (uint8_t i = 0; i < keyGroupNumeric.size(); i++) keyValues.push_back({keyGroupNumeric[i], color});
 	for (uint8_t i = 0; i < keyGroupModifiers.size(); i++) keyValues.push_back({keyGroupModifiers[i], color});
 	for (uint8_t i = 0; i < keyGroupKeys.size(); i++) keyValues.push_back({keyGroupKeys[i], color});
-	return setKeys(keyValues);	
+	return setLEDs(keyValues);	
 }
 
 bool LogitechPerKeyLED::setGroupKeys(KeyGroup keyGroup, LedDevice::Color color) {
-	KeyValueArray keyValues;
+	LEDValueArray keyValues;
 	
 	KeyArray keyArray;
 	
@@ -58,11 +58,11 @@ bool LogitechPerKeyLED::setGroupKeys(KeyGroup keyGroup, LedDevice::Color color) 
 	
 	for (uint8_t i = 0; i < keyArray.size(); i++) keyValues.push_back({keyArray[i], color});
 	
-	return setKeys(keyValues);
+	return setLEDs(keyValues);
 }
 
-bool LogitechPerKeyLED::setKey(KeyValue keyValue) {
-	return setKeys(KeyValueArray {keyValue});
+bool LogitechPerKeyLED::setLED(LEDValue keyValue) {
+	return setLEDs(LEDValueArray {keyValue});
 }
 
 bool LogitechPerKeyLED::sendDataInternal(byte_buffer_t &data) {
@@ -107,12 +107,12 @@ bool LogitechPerKeyLED::commit() {
 	return sendDataInternal(data);
 }
 
-bool LogitechPerKeyLED::setKeys(KeyValueArray keyValues) {
+bool LogitechPerKeyLED::setLEDs(LEDValueArray keyValues) {
 	if (keyValues.empty()) return false;
 	
 	bool retval = true;
 	
-	std::vector<std::vector<KeyValue>> SortedKeys = {
+	std::vector<std::vector<LEDValue>> SortedKeys = {
 		{}, // Logo AddressGroup
 		{}, // Indicators AddressGroup
 		{}, // Multimedia AddressGroup

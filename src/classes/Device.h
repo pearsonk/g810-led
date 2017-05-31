@@ -36,9 +36,9 @@ class LedDevice {
 		typedef struct {
 			uint16_t key;
 			Color color;
-		} KeyValue;
+		} LEDValue;
 
-		typedef std::vector<KeyValue> KeyValueArray;
+		typedef std::vector<LEDValue> LEDValueArray;
 
 		bool isOpen();
 		bool isSupported(uint16_t vendorID, uint16_t productID);
@@ -52,9 +52,9 @@ class LedDevice {
 		bool close();
 		std::vector<DeviceInfo> getSupportedDevices();
 		
-		virtual bool setKey(KeyValue keyValue)= 0;
-		virtual bool setKeys(KeyValueArray keyValues) = 0;
-		virtual bool setAllKeys(Color color) = 0;
+		virtual bool setLED(LEDValue keyValue)= 0;
+		virtual bool setLEDs(LEDValueArray keyValues) = 0;
+		virtual bool setAllLEDs(Color color) = 0;
 		virtual bool commit() = 0;
 		
 		virtual bool setRegion(uint8_t region, Color color) = 0;

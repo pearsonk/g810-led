@@ -45,7 +45,7 @@ bool LedDevice::initialize(hid_device* handle) {
   return true;
 }
 #elif defined(libusb)
-bool LedKeybaord::initialize(libusb_context* context, libusb_device_handle* handle) {
+bool LedDevice::initialize(libusb_context* context, libusb_device_handle* handle) {
 	if (isOpen() || context == NULL || handle == NULL) return false;
 
 	m_ctx = context;
