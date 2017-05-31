@@ -48,6 +48,9 @@ bin-linked: lib/lib$(PROGN).so
 
 lib: lib/lib$(PROGN).so
 
+lib-debug: CFLAGS += -g -Wextra -pedantic
+lib-debug: lib/lib$(PROGN).so
+
 clean:
 	@rm -rf bin
 	@rm -rf lib
