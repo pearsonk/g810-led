@@ -17,7 +17,7 @@ class LedDevice {
 	
 	public:
 		LedDevice();
-		virtual ~LedDevice() = 0;
+		virtual ~LedDevice();
 
 		typedef struct {
 			uint16_t vendorID = 0x0;

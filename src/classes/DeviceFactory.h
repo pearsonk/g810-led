@@ -10,7 +10,7 @@ class LedDeviceFactory {
 
 		static LedDevice* getDevice(uint16_t vendorID, uint16_t productID, std::string serial);
 
-		// Supported keyboards plugged into the system
+		// Supported devices plugged into the system
 		static std::vector<LedDevice::DeviceInfo> listAttachedDevices();
 
 		// Devices supported by the system
@@ -21,7 +21,7 @@ class LedDeviceFactory {
 
 		static std::vector<LedDevice*> getInstances();
 
-		static void setDeviceInfo(LedDevice::DeviceInfo deviceInfo, struct hid_device_info *dev);
+		static void setDeviceInfo(LedDevice::DeviceInfo& deviceInfo, struct hid_device_info *dev);
 
 };
 #endif
