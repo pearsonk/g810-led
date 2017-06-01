@@ -1,7 +1,7 @@
 #ifndef KEYBOARD_LOGITECH_G410_CLASS
 #define KEYBOARD_LOGITECH_G410_CLASS
 
-#include "LogitechPerKeyLED.h"
+#include "../LogitechPerKeyLED.h"
 
 class LogitechG410 : public LogitechPerKeyLED {
 

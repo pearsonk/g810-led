@@ -12,7 +12,7 @@
 #endif
 
 // Logitech classes
-#include "LogitechG410.h"
+#include "Logitech/Devices/LogitechG410.h"
 
 
 std::vector<LedDevice*> LedDeviceFactory::getInstances() {

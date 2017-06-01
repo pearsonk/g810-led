@@ -1,4 +1,4 @@
-#include "LogitechPerKeyLED.h"
+#include "Logitech/LogitechPerKeyLED.h"
 
 bool LogitechPerKeyLED::setAllLEDs(LedDevice::Color color) {
 	LEDValueArray keyValues;

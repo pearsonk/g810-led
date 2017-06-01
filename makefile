@@ -20,9 +20,9 @@ MAJOR=0
 MINOR=2
 MICRO=4
 
-CFLAGS+=-DVERSION=\"$(MAJOR).$(MINOR).$(MICRO)\"
+CFLAGS+=-DVERSION=\"$(MAJOR).$(MINOR).$(MICRO)\" -Iinclude
 APPSRCS=src/main.cpp src/helpers/*.cpp src/helpers/*.h
-LIBSRCS=src/classes/*.cpp src/classes/*.h
+LIBSRCS=$(shell find src/classes -name *.cpp )
 
 .PHONY: all bin debug clean setup install uninstall lib install-lib install-dev
 
@@ -79,7 +79,7 @@ install-lib: lib
 
 install-dev: install-lib
 	@mkdir -p $(includedir)/$(PROGN)/
-	@install -m 644 src/classes/*.h $(includedir)/$(PROGN)
+	cp -rvf include/* $(includedir)/$(PROGN)
 
 install: setup
 	@test -s /etc/$(PROGN)/profile || \

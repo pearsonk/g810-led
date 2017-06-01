@@ -1,7 +1,7 @@
 #ifndef KEYBOARD_LOGITECH_CLASS
 #define KEYBOARD_LOGITECH_CLASS
 
-#include "Device.h"
+#include "../Device.h"
 
 class LogitechDevice : public LedDevice {
 	public:

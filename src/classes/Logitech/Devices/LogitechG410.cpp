@@ -1,5 +1,5 @@
 #include <vector>
-#include "LogitechG410.h"
+#include "Logitech/Devices/LogitechG410.h"
 
 LogitechG410::LogitechG410() {
 	DeviceInfo device;
