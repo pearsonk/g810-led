@@ -66,8 +66,6 @@ class LedDevice {
 		virtual bool setAllLEDs(Color color) = 0;
 		virtual bool commit() = 0;
 		
-		virtual bool setRegion(uint8_t region, Color color) = 0;
-		
 	protected:
 	
 		#if defined(hidapi)

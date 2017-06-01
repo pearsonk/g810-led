@@ -54,10 +54,6 @@ bool LogitechG410::setGKeysMode(uint8_t)
 	return false;
 }
 
-bool LogitechG410::setRegion(uint8_t, LedDevice::Color) {
-	return false;
-}
-
 bool LogitechG410::setStartupMode(StartupMode startupMode) {
 	byte_buffer_t data;
 	data = { 0x11, 0xff, 0x0d, 0x5a, 0x00, 0x01 };

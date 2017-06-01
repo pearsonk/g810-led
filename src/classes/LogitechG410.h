@@ -15,7 +15,6 @@ class LogitechG410 : public LogitechPerKeyLED {
 		bool setMNKey(uint8_t value) override;
 		bool setGKeysMode(uint8_t value) override;
 		bool setStartupMode(StartupMode startupMode) override;
-		bool setRegion(uint8_t region, Color color) override;
 
 	private:
     void populateLEDs(std::string name, std::vector<LED> group);
