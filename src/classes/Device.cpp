@@ -19,30 +19,14 @@ LedDevice::~LedDevice() {
 	close();
 }
 
-std::unordered_map<std::string, uint16_t> LedDevice::getLEDMap() {
-	std::unordered_map<std::string, uint16_t> copy = std::unordered_map<std::string, uint16_t>(LEDMap);
+std::vector<LedDevice::LED> LedDevice::getLEDs() {
+	std::vector<LedDevice::LED> copy = std::vector<LedDevice::LED>(LEDs);
 	return copy;
 }
 
-std::unordered_map<std::string, std::vector<uint16_t>> LedDevice::getLEDGroupMap() {
-	std::unordered_map<std::string, std::vector<uint16_t>> copy = std::unordered_map<std::string, std::vector<uint16_t>>(LEDGroupMap);
+std::unordered_map<std::string, std::vector<LedDevice::LED>> LedDevice::getLEDGroups() {
+	std::unordered_map<std::string, std::vector<LedDevice::LED>> copy = std::unordered_map<std::string, std::vector<LedDevice::LED>>(LEDGroupMap);
 	return copy;
-}
-
-std::vector<std::string> LedDevice::getLEDs() {
-	std::vector<std::string> keys;
-	for (auto iterator :  LEDMap) {
-		keys.push_back(iterator.first);
-	}
-	return keys;
-}
-
-std::vector<std::string> LedDevice::getLEDGroups() {
-	std::vector<std::string> keys;
-	for (auto iterator :  LEDGroupMap) {
-		keys.push_back(iterator.first);
-	}
-	return keys;
 }
 
 bool LedDevice::isOpen() {
@@ -119,4 +103,18 @@ bool LedDevice::close() {
 }
 #endif
 	
+bool LedDevice::setLEDGroup(std::string name, Color color) {
+	std::unordered_map<std::string, std::vector<LED>>::const_iterator element = LEDGroupMap.find(name);
+
+	if (element == LEDGroupMap.end())
+	return false;
+
+	LEDValueArray array;
+
+	for (LED led : element->second) {
+		LEDValue value = { led, color };
+		array.push_back(value);
+	}
+	return setLEDs(array);
+}  
 

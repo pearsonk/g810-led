@@ -8,23 +8,37 @@ LogitechG410::LogitechG410() {
 	supportedDevices.push_back(device);
 
   nativeEffectProtocolByte = 0x0d;
+
+	populateLEDs("F-Keys", keyGroupFKeys);
+	populateLEDs("Modifiers", keyGroupModifiers);
+	populateLEDs("Functions", keyGroupFunctions);
+	populateLEDs("Arrows", keyGroupArrows);
+	populateLEDs("Numpad", keyGroupNumeric);
+	populateLEDs("Keys", keyGroupKeys);
 }
 
-bool LogitechG410::setMRKey(uint8_t value) {
+void LogitechG410::populateLEDs(std::string name, std::vector<LED> group) {
+	LEDGroupMap.insert({name, group});
+	for (auto led : group) {
+		LEDs.push_back(led);
+	}
+}
+
+bool LogitechG410::setMRKey(uint8_t) {
 	return false;
 }
 
-bool LogitechG410::setMNKey(uint8_t value) {
+bool LogitechG410::setMNKey(uint8_t) {
 	return false;
 }
 
 void LogitechG410::getSortedKeys(LogitechPerKeyLED::LEDValueArray values, std::vector<std::vector<LogitechPerKeyLED::LEDValue>>& sortedKeys) {
 	for (uint8_t i = 0; i < values.size(); i++) {
 		//Simplify?
-		switch(static_cast<LogitechPerKeyLED::KeyAddressGroup>(static_cast<uint16_t>(values[i].key) >> 8 )) {
+		switch(static_cast<LogitechPerKeyLED::KeyAddressGroup>(values[i].led.code >> 8 )) {
 			case LogitechPerKeyLED::KeyAddressGroup::keys:
 				if (sortedKeys[4].size() <= 120) {
-					if (values[i].key < (uint16_t)LogitechPerKeyLED::Key::num_lock || values[i].key > (uint16_t)LogitechPerKeyLED::Key::num_dot) {
+					if (values[i].led.code < LogitechPerKeyLED::num_lock.code || values[i].led.code > (uint16_t)LogitechPerKeyLED::num_dot.code) {
 						sortedKeys[4].push_back(values[i]);
 					}
 				}
@@ -35,12 +49,12 @@ void LogitechG410::getSortedKeys(LogitechPerKeyLED::LEDValueArray values, std::v
 	}
 }
 
-bool LogitechG410::setGKeysMode(uint8_t value)
+bool LogitechG410::setGKeysMode(uint8_t)
 {
 	return false;
 }
 
-bool LogitechG410::setRegion(uint8_t region, LedDevice::Color color) {
+bool LogitechG410::setRegion(uint8_t, LedDevice::Color) {
 	return false;
 }
 

@@ -16,51 +16,6 @@ bool LogitechPerKeyLED::setAllLEDs(LedDevice::Color color) {
 	return setLEDs(keyValues);	
 }
 
-bool LogitechPerKeyLED::setGroupKeys(KeyGroup keyGroup, LedDevice::Color color) {
-	LEDValueArray keyValues;
-	
-	KeyArray keyArray;
-	
-	switch (keyGroup) {
-		case KeyGroup::logo:
-			keyArray = keyGroupLogo;
-			break;
-		case KeyGroup::indicators:
-			keyArray = keyGroupIndicators;
-			break;
-		case KeyGroup::gkeys:
-			keyArray = keyGroupGKeys;
-			break;
-		case KeyGroup::multimedia:
-			keyArray = keyGroupMultimedia;
-			break;
-		case KeyGroup::fkeys:
-			keyArray = keyGroupFKeys;
-			break;
-		case KeyGroup::modifiers:
-			keyArray = keyGroupModifiers;
-			break;
-		case KeyGroup::arrows:
-			keyArray = keyGroupArrows;
-			break;
-		case KeyGroup::numeric:
-			keyArray = keyGroupNumeric;
-			break;
-		case KeyGroup::functions:
-			keyArray = keyGroupFunctions;
-			break;
-		case KeyGroup::keys:
-			keyArray = keyGroupKeys;
-			break;
-		default:
-			break;
-	}
-	
-	for (uint8_t i = 0; i < keyArray.size(); i++) keyValues.push_back({keyArray[i], color});
-	
-	return setLEDs(keyValues);
-}
-
 bool LogitechPerKeyLED::setLED(LEDValue keyValue) {
 	return setLEDs(LEDValueArray {keyValue});
 }
@@ -161,8 +116,7 @@ bool LogitechPerKeyLED::setLEDs(LEDValueArray keyValues) {
 					
 					for (uint8_t i = 0; i < maxKeyCount; i++) {
 						if (gi + i < SortedKeys[kag].size()) {
-							data.push_back(static_cast<uint8_t>(
-								static_cast<uint16_t>(SortedKeys[kag][gi+i].key) & 0x00ff));
+							data.push_back(static_cast<uint8_t>(SortedKeys[kag][gi+i].led.code) & 0x00ff);
 							data.push_back(SortedKeys[kag][gi+i].color.red);
 							data.push_back(SortedKeys[kag][gi+i].color.green);
 							data.push_back(SortedKeys[kag][gi+i].color.blue);

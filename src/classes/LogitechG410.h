@@ -18,9 +18,11 @@ class LogitechG410 : public LogitechPerKeyLED {
 		bool setRegion(uint8_t region, Color color) override;
 
 	private:
+    void populateLEDs(std::string name, std::vector<LED> group);
 
 	protected:
 		void getSortedKeys(LogitechPerKeyLED::LEDValueArray keyValues, std::vector<std::vector<LogitechPerKeyLED::LEDValue>>& sortedKeys) override;
+
 };
 
 #endif

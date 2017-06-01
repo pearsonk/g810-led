@@ -29,13 +29,18 @@ class LedDevice {
 		} DeviceInfo;
 		
 		typedef struct {
+			std::string name;
+			uint16_t code;
+		} LED;
+	
+		typedef struct {
 			uint8_t red;
 			uint8_t green;
 			uint8_t blue;
 		} Color;
 
 		typedef struct {
-			uint16_t key;
+			LED led;
 			Color color;
 		} LEDValue;
 
@@ -52,13 +57,12 @@ class LedDevice {
 		DeviceInfo getCurrentDevice();
 		bool close();
 		std::vector<DeviceInfo> getSupportedDevices();
-    std::vector<std::string> getLEDs();
-    std::vector<std::string> getLEDGroups();
-    std::unordered_map<std::string, uint16_t> getLEDMap();
-    std::unordered_map<std::string, std::vector<uint16_t>> getLEDGroupMap();
+    std::vector<LED> getLEDs();
+    std::unordered_map<std::string, std::vector<LED>> getLEDGroups();
 		
-		virtual bool setLED(LEDValue value)= 0;
+		virtual bool setLED(LEDValue value) = 0;
 		virtual bool setLEDs(LEDValueArray values) = 0;
+		virtual bool setLEDGroup(std::string name, Color color);
 		virtual bool setAllLEDs(Color color) = 0;
 		virtual bool commit() = 0;
 		
@@ -77,8 +81,9 @@ class LedDevice {
 		DeviceInfo currentDevice;
 		bool m_isOpen = false;
 		std::vector<DeviceInfo> supportedDevices;
-    std::unordered_map<std::string, uint16_t> LEDMap;
-    std::unordered_map<std::string, std::vector<uint16_t>> LEDGroupMap;
+    std::vector<LED> LEDs;
+    std::unordered_map<std::string, std::vector<LED>> LEDGroupMap;
+		
 };
 
 #endif
