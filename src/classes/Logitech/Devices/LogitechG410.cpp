@@ -1,4 +1,5 @@
 #include <vector>
+#include "Logitech/LogitechKeyLEDs.h"
 #include "Logitech/Devices/LogitechG410.h"
 
 LogitechG410::LogitechG410() {
@@ -9,12 +10,12 @@ LogitechG410::LogitechG410() {
 
   nativeEffectProtocolByte = 0x0d;
 
-	addGroupAndLEDs("F-Keys", keyGroupFKeys);
-	addGroupAndLEDs("Modifiers", keyGroupModifiers);
-	addGroupAndLEDs("Functions", keyGroupFunctions);
-	addGroupAndLEDs("Arrows", keyGroupArrows);
-	addGroupAndLEDs("Numpad", keyGroupNumeric);
-	addGroupAndLEDs("Keys", keyGroupKeys);
+	addGroupAndLEDs("F-Keys", LogitechKeyLEDs::keyGroupFKeys);
+	addGroupAndLEDs("Modifiers", LogitechKeyLEDs::keyGroupModifiers);
+	addGroupAndLEDs("Functions", LogitechKeyLEDs::keyGroupFunctions);
+	addGroupAndLEDs("Arrows", LogitechKeyLEDs::keyGroupArrows);
+	addGroupAndLEDs("Numpad", LogitechKeyLEDs::keyGroupNumeric);
+	addGroupAndLEDs("Keys", LogitechKeyLEDs::keyGroupKeys);
 }
 
 bool LogitechG410::setMRKey(uint8_t) {

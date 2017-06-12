@@ -3,16 +3,16 @@
 bool LogitechPerKeyLED::setAllLEDs(LedDevice::Color color) {
 	LEDValueArray keyValues;
 
-	for (uint8_t i = 0; i < keyGroupLogo.size(); i++) keyValues.push_back({keyGroupLogo[i], color});
-	for (uint8_t i = 0; i < keyGroupIndicators.size(); i++) keyValues.push_back({keyGroupIndicators[i], color});
-	for (uint8_t i = 0; i < keyGroupMultimedia.size(); i++) keyValues.push_back({keyGroupMultimedia[i], color});
-	for (uint8_t i = 0; i < keyGroupGKeys.size(); i++) keyValues.push_back({keyGroupGKeys[i], color});
-	for (uint8_t i = 0; i < keyGroupFKeys.size(); i++) keyValues.push_back({keyGroupFKeys[i], color});
-	for (uint8_t i = 0; i < keyGroupFunctions.size(); i++) keyValues.push_back({keyGroupFunctions[i], color});
-	for (uint8_t i = 0; i < keyGroupArrows.size(); i++) keyValues.push_back({keyGroupArrows[i], color});
-	for (uint8_t i = 0; i < keyGroupNumeric.size(); i++) keyValues.push_back({keyGroupNumeric[i], color});
-	for (uint8_t i = 0; i < keyGroupModifiers.size(); i++) keyValues.push_back({keyGroupModifiers[i], color});
-	for (uint8_t i = 0; i < keyGroupKeys.size(); i++) keyValues.push_back({keyGroupKeys[i], color});
+	for (uint8_t i = 0; i < LogitechKeyLEDs::keyGroupLogo.size(); i++) keyValues.push_back({keyGroupLogo[i], color});
+	for (uint8_t i = 0; i < LogitechKeyLEDs::keyGroupIndicators.size(); i++) keyValues.push_back({keyGroupIndicators[i], color});
+	for (uint8_t i = 0; i < LogitechKeyLEDs::keyGroupMultimedia.size(); i++) keyValues.push_back({keyGroupMultimedia[i], color});
+	for (uint8_t i = 0; i < LogitechKeyLEDs::keyGroupGKeys.size(); i++) keyValues.push_back({keyGroupGKeys[i], color});
+	for (uint8_t i = 0; i < LogitechKeyLEDs::keyGroupFKeys.size(); i++) keyValues.push_back({keyGroupFKeys[i], color});
+	for (uint8_t i = 0; i < LogitechKeyLEDs::keyGroupFunctions.size(); i++) keyValues.push_back({keyGroupFunctions[i], color});
+	for (uint8_t i = 0; i < LogitechKeyLEDs::keyGroupArrows.size(); i++) keyValues.push_back({keyGroupArrows[i], color});
+	for (uint8_t i = 0; i < LogitechKeyLEDs::keyGroupNumeric.size(); i++) keyValues.push_back({keyGroupNumeric[i], color});
+	for (uint8_t i = 0; i < LogitechKeyLEDs::keyGroupModifiers.size(); i++) keyValues.push_back({keyGroupModifiers[i], color});
+	for (uint8_t i = 0; i < LogitechKeyLEDs::keyGroupKeys.size(); i++) keyValues.push_back({keyGroupKeys[i], color});
 	return setLEDs(keyValues);	
 }
 
