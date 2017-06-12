@@ -225,7 +225,3 @@ LogitechPerKeyLED::byte_buffer_t LogitechPerKeyLED::getKeyGroupAddress(LogitechP
 	}
 	return {};
 }
-
-bool setRegion(uint8_t region, LedDevice::Color color) {
-	return false;
-}
