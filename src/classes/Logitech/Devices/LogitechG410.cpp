@@ -14,7 +14,6 @@ LogitechG410::LogitechG410() {
 	addGroupAndLEDs("Modifiers", LogitechKeyLEDs::keyGroupModifiers);
 	addGroupAndLEDs("Functions", LogitechKeyLEDs::keyGroupFunctions);
 	addGroupAndLEDs("Arrows", LogitechKeyLEDs::keyGroupArrows);
-	addGroupAndLEDs("Numpad", LogitechKeyLEDs::keyGroupNumeric);
 	addGroupAndLEDs("Keys", LogitechKeyLEDs::keyGroupKeys);
 }
 
