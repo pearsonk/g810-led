@@ -136,7 +136,10 @@ class LogitechKeyLEDs {
 		const LedDevice::LED win_right = {"win_right", 0x04e7};
 
 		std::vector<LedDevice::LED> keyGroupLogo = { 
-			logo, 
+			logo
+		};
+
+		std::vector<LedDevice::LED> keyGroupBadge = {
 			badge
 		};
 
