@@ -23,8 +23,10 @@ MICRO=4
 CFLAGS+=-DVERSION=\"$(MAJOR).$(MINOR).$(MICRO)\" -Iinclude
 APPSRCS=src/main.cpp src/helpers/*.cpp src/helpers/*.h
 LIBSRCS=$(shell find src/classes -name *.cpp )
+TESTSRC=$(wildcard test/*.cpp)
+TESTBIN=$(addprefix test/,$(notdir $(TESTSRC:.cpp=.test)))
 
-.PHONY: all bin debug clean setup install uninstall lib install-lib install-dev
+.PHONY: all bin debug clean setup install uninstall lib install-lib install-dev test
 
 all: lib/lib$(PROGN).so bin/$(PROGN)
 
@@ -51,7 +53,15 @@ lib: lib/lib$(PROGN).so
 lib-debug: CFLAGS += -g -Wextra -pedantic
 lib-debug: lib/lib$(PROGN).so
 
-clean:
+test: lib-debug $(TESTBIN)
+
+test/%.test:
+	$(CC) -g $(CPPFLAGS) $(CFLAGS) $(@:.test=.cpp) -o $@ $(LDFLAGS) -L./lib -l$(PROGN)
+
+clean-tests:
+	@rm -rf test/*.test
+
+clean: clean-tests
 	@rm -rf bin
 	@rm -rf lib
 

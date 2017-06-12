@@ -135,12 +135,12 @@ class LogitechKeyLEDs {
 		const LedDevice::LED alt_right = {"alt_right", 0x04e6};
 		const LedDevice::LED win_right = {"win_right", 0x04e7};
 
-		const std::vector<LedDevice::LED> keyGroupLogo = { 
+		std::vector<LedDevice::LED> keyGroupLogo = { 
 			logo, 
 			badge
 		};
 
-		const std::vector<LedDevice::LED> keyGroupIndicators = { 
+		std::vector<LedDevice::LED> keyGroupIndicators = { 
 			caps,
 			num,
 			scroll,
@@ -148,7 +148,7 @@ class LogitechKeyLEDs {
 			backlight
 		};
 
-		const std::vector<LedDevice::LED> keyGroupMultimedia = { 
+		std::vector<LedDevice::LED> keyGroupMultimedia = { 
 			next,
 			prev,
 			stop,
@@ -156,7 +156,7 @@ class LogitechKeyLEDs {
 			mute
 		};
 
-		const std::vector<LedDevice::LED> keyGroupGKeys = {
+		std::vector<LedDevice::LED> keyGroupGKeys = {
 			g1,
 			g2,
 			g3,
@@ -168,7 +168,7 @@ class LogitechKeyLEDs {
 			g9
 		};
 
-		const std::vector<LedDevice::LED> keyGroupFKeys = {
+		std::vector<LedDevice::LED> keyGroupFKeys = {
 			f1,
 			f2,
 			f3,
@@ -183,7 +183,7 @@ class LogitechKeyLEDs {
 			f12 
 		};
 
-		const std::vector<LedDevice::LED> keyGroupModifiers = {
+		std::vector<LedDevice::LED> keyGroupModifiers = {
 			shift_left,
 			ctrl_left,
 			win_left,
@@ -195,7 +195,7 @@ class LogitechKeyLEDs {
 			menu
 		};
 
-		const std::vector<LedDevice::LED> keyGroupFunctions = {
+		std::vector<LedDevice::LED> keyGroupFunctions = {
 			esc,
 			print_screen,
 			scroll_lock,
@@ -208,14 +208,14 @@ class LogitechKeyLEDs {
 			page_down
 		};
 
-		const std::vector<LedDevice::LED> keyGroupArrows = {
+		std::vector<LedDevice::LED> keyGroupArrows = {
 			arrow_top,
 			arrow_left,
 			arrow_bottom,
 			arrow_right
 		};
 
-		const std::vector<LedDevice::LED> keyGroupNumeric = {
+		std::vector<LedDevice::LED> keyGroupNumeric = {
 			num_1,
 			num_2,
 			num_3,
@@ -235,7 +235,7 @@ class LogitechKeyLEDs {
 			num_lock
 		};
 
-		const std::vector<LedDevice::LED> keyGroupKeys = {
+		std::vector<LedDevice::LED> keyGroupKeys = {
 			a,
 			b,
 			c,

@@ -45,11 +45,7 @@ class LogitechPerKeyLED : public LogitechDevice, public LogitechKeyLEDs {
 		bool setNativeEffect(NativeEffect effect, NativeEffectPart part, uint8_t speed, Color color) override;
 		bool commit() override;
 
-
-		bool setAllLEDs(Color color) override;
-
 	private:
-
 
 	protected:
 

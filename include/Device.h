@@ -59,11 +59,13 @@ class LedDevice {
 		std::vector<DeviceInfo> getSupportedDevices();
     std::vector<LED> getLEDs();
     std::unordered_map<std::string, std::vector<LED>> getLEDGroups();
+	
+		bool setLED(LED led, Color color);
+		bool setAllLEDs(Color color);
+		bool setLEDGroup(std::string name, Color color);
 		
 		virtual bool setLED(LEDValue value) = 0;
 		virtual bool setLEDs(LEDValueArray values) = 0;
-		virtual bool setLEDGroup(std::string name, Color color);
-		virtual bool setAllLEDs(Color color) = 0;
 		virtual bool commit() = 0;
 		
 	protected:

@@ -1,15 +1,5 @@
 #include "Logitech/LogitechPerKeyLED.h"
 
-bool LogitechPerKeyLED::setAllLEDs(LedDevice::Color color) {
-	LEDValueArray ledValues;
-
-	for (auto led : LEDs)
-	{
-		ledValues.push_back({led, color});
-	}
-	return setLEDs(ledValues);
-}
-
 bool LogitechPerKeyLED::setLED(LEDValue keyValue) {
 	return setLEDs(LEDValueArray {keyValue});
 }

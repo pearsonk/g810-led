@@ -33,6 +33,21 @@ bool LedDevice::isOpen() {
 	return m_isOpen;
 }
 
+bool LedDevice::setAllLEDs(LedDevice::Color color) {
+	LEDValueArray ledValues;
+
+	for (auto led : LEDs)
+	{
+		ledValues.push_back({led, color});
+	}
+	return setLEDs(ledValues);
+}
+
+bool LedDevice::setLED(LED led, Color color) {
+	LEDValue singleLED = { led, color };
+	return setLED(singleLED);
+}
+
 bool LedDevice::isSupported(uint16_t vendorID, uint16_t productID) {
 	for (unsigned int index=0; index<supportedDevices.size(); index++) {
 		DeviceInfo supportedDevice = supportedDevices.at(index);
@@ -41,6 +56,21 @@ bool LedDevice::isSupported(uint16_t vendorID, uint16_t productID) {
 			return true;
 	}
 	return false;
+}
+
+bool LedDevice::setLEDGroup(std::string name, Color color) {
+	std::unordered_map<std::string, std::vector<LED>>::const_iterator element = LEDGroupMap.find(name);
+
+	if (element == LEDGroupMap.end())
+	return false;
+
+	LEDValueArray array;
+
+	for (LED led : element->second) {
+		LEDValue value = { led, color };
+		array.push_back(value);
+	}
+	return setLEDs(array);
 }
 
 #if defined(hidapi)
@@ -102,19 +132,5 @@ bool LedDevice::close() {
 	return true;
 }
 #endif
-	
-bool LedDevice::setLEDGroup(std::string name, Color color) {
-	std::unordered_map<std::string, std::vector<LED>>::const_iterator element = LEDGroupMap.find(name);
 
-	if (element == LEDGroupMap.end())
-	return false;
-
-	LEDValueArray array;
-
-	for (LED led : element->second) {
-		LEDValue value = { led, color };
-		array.push_back(value);
-	}
-	return setLEDs(array);
-}  
 
