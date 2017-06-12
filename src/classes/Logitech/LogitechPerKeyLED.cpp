@@ -62,6 +62,13 @@ bool LogitechPerKeyLED::commit() {
 	return sendDataInternal(data);
 }
 
+void LogitechPerKeyLED::addGroupAndLEDs(std::string name, std::vector<LED> group) {
+	LEDGroupMap.insert({name, group});
+	for (auto led : group) {
+		LEDs.push_back(led);
+	}
+}
+
 bool LogitechPerKeyLED::setLEDs(LEDValueArray keyValues) {
 	if (keyValues.empty()) return false;
 	

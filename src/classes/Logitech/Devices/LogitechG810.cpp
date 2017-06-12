@@ -13,15 +13,15 @@ LogitechG810::LogitechG810() {
 
   nativeEffectProtocolByte = 0x0d;
 
-  populateLEDs("Logo", keyGroupLogo);
-  populateLEDs("F-Keys", keyGroupFKeys);
-	populateLEDs("Modifiers", keyGroupModifiers);
-	populateLEDs("Functions", keyGroupFunctions);
-	populateLEDs("Arrows", keyGroupArrows);
-	populateLEDs("Numpad", keyGroupNumeric);
-	populateLEDs("Keys", keyGroupKeys);
-	populateLEDs("Indicators", keyGroupIndicators);
-	populateLEDs("Multimedia", keyGroupMultimedia);
+  addGroupAndLEDs("Logo", keyGroupLogo);
+  addGroupAndLEDs("F-Keys", keyGroupFKeys);
+	addGroupAndLEDs("Modifiers", keyGroupModifiers);
+	addGroupAndLEDs("Functions", keyGroupFunctions);
+	addGroupAndLEDs("Arrows", keyGroupArrows);
+	addGroupAndLEDs("Numpad", keyGroupNumeric);
+	addGroupAndLEDs("Keys", keyGroupKeys);
+	addGroupAndLEDs("Indicators", keyGroupIndicators);
+	addGroupAndLEDs("Multimedia", keyGroupMultimedia);
 }
 
 bool LogitechG810::setMRKey(uint8_t) {
@@ -30,13 +30,6 @@ bool LogitechG810::setMRKey(uint8_t) {
 
 bool LogitechG810::setMNKey(uint8_t) {
   return false;
-}
-
-void LogitechG810::populateLEDs(std::string name, std::vector<LED> group) {
-	LEDGroupMap.insert({name, group});
-	for (auto led : group) {
-		LEDs.push_back(led);
-	}
 }
 
 void LogitechG810::getSortedKeys(LogitechPerKeyLED::LEDValueArray values, std::vector<std::vector<LogitechPerKeyLED::LEDValue>>& sortedKeys) {

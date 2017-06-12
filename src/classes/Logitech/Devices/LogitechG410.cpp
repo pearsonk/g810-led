@@ -9,19 +9,12 @@ LogitechG410::LogitechG410() {
 
   nativeEffectProtocolByte = 0x0d;
 
-	populateLEDs("F-Keys", keyGroupFKeys);
-	populateLEDs("Modifiers", keyGroupModifiers);
-	populateLEDs("Functions", keyGroupFunctions);
-	populateLEDs("Arrows", keyGroupArrows);
-	populateLEDs("Numpad", keyGroupNumeric);
-	populateLEDs("Keys", keyGroupKeys);
-}
-
-void LogitechG410::populateLEDs(std::string name, std::vector<LED> group) {
-	LEDGroupMap.insert({name, group});
-	for (auto led : group) {
-		LEDs.push_back(led);
-	}
+	addGroupAndLEDs("F-Keys", keyGroupFKeys);
+	addGroupAndLEDs("Modifiers", keyGroupModifiers);
+	addGroupAndLEDs("Functions", keyGroupFunctions);
+	addGroupAndLEDs("Arrows", keyGroupArrows);
+	addGroupAndLEDs("Numpad", keyGroupNumeric);
+	addGroupAndLEDs("Keys", keyGroupKeys);
 }
 
 bool LogitechG410::setMRKey(uint8_t) {

@@ -17,7 +17,6 @@ class LogitechG410 : public LogitechPerKeyLED {
 		bool setStartupMode(StartupMode startupMode) override;
 
 	private:
-    void populateLEDs(std::string name, std::vector<LED> group);
 
 	protected:
 		void getSortedKeys(LogitechPerKeyLED::LEDValueArray keyValues, std::vector<std::vector<LogitechPerKeyLED::LEDValue>>& sortedKeys) override;

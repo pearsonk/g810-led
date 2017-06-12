@@ -381,6 +381,7 @@ LED win_right = {"win_right", 0x04e7};
 
 		bool sendDataInternal(byte_buffer_t &data) override;
     virtual bool hasNativeEffectPart(NativeEffectPart part) = 0;
+    void addGroupAndLEDs(std::string name, std::vector<LED> group);
 
 };
 
