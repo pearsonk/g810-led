@@ -6,6 +6,7 @@
 #include "Device.h"
 
 class LedDeviceFactory {
+
 	public:
 
 		static LedDevice* getDevice(uint16_t vendorID, uint16_t productID, std::string serial);
@@ -15,7 +16,7 @@ class LedDeviceFactory {
 
 		// Devices supported by the system
 		static std::vector<LedDevice::DeviceInfo> listSupportedDevices();
-	
+
 	private:
 		LedDeviceFactory();
 

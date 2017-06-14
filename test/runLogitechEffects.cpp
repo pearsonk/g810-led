@@ -40,15 +40,47 @@ int main(int argc, char** argv) {
 
 		LogitechDevice* logitech = static_cast<LogitechDevice*>(keyboard);
 
+		// Color
 		cout << "Setting native color blue" << endl;
 		if (! logitech->setNativeEffect(LogitechDevice::NativeEffect::color, LogitechDevice::NativeEffectPart::all, 0, blue)) return 4;
 		if (! logitech->commit()) return -1;
 
 		sleep(5);
 
+		 // Breath/Blink
 		cout << "Setting native breath" << endl;
-		if (! logitech->setNativeEffect(LogitechDevice::NativeEffect::breathing, LogitechDevice::NativeEffectPart::keys, 2, red)) return 4;
+		if (! logitech->setNativeEffect(LogitechDevice::NativeEffect::breathing, LogitechDevice::NativeEffectPart::all, 2, red)) return 4;
 		if (! logitech->commit()) return -1;
+
+		sleep(5);
+
+		// Cycle
+		cout << "Setting cycle" << endl;
+		if (! logitech->setNativeEffect(LogitechDevice::NativeEffect::cycle, LogitechDevice::NativeEffectPart::all, 5, green)) return 4;
+		if (! logitech->commit()) return -1;
+
+		sleep(5);
+		
+		// H-Wave
+		cout << "Setting horizontal wave" << endl;
+		if (! logitech->setNativeEffect(LogitechDevice::NativeEffect::hwave, LogitechDevice::NativeEffectPart::all, 5, blue)) return 4;
+		if (! logitech->commit()) return -1;
+
+		sleep(5);
+
+		// V-Wave
+		cout << "Setting vertical wave" << endl;
+		if (! logitech->setNativeEffect(LogitechDevice::NativeEffect::vwave, LogitechDevice::NativeEffectPart::all, 5, red)) return 4;
+		if (! logitech->commit()) return -1;
+
+		sleep(5);
+
+		// C-Wave
+		cout << "Setting C wave" << endl;
+		if (! logitech->setNativeEffect(LogitechDevice::NativeEffect::cwave, LogitechDevice::NativeEffectPart::all, 5, white)) return 4;
+		if (! logitech->commit()) return -1;
+
+		sleep(5);
 
 		delete keyboard;
 	}

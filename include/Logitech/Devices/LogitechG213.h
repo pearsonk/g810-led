@@ -9,10 +9,10 @@ class LogitechG213 : public LogitechDevice {
 		LogitechG213();
 		~LogitechG213();
 
-		bool setMRKey(uint8_t value) override;
-		bool setMNKey(uint8_t value) override;
 		bool setGKeysMode(uint8_t value) override;
-		
+		bool setMNKey(uint8_t value) override;
+		bool setMRKey(uint8_t value) override;
+
 		bool setLED(LEDValue value) override;
 		bool setLEDs(LEDValueArray values) override;
 		bool commit() override;
@@ -24,6 +24,7 @@ class LogitechG213 : public LogitechDevice {
 		const LED right = { "Right", 0x5 };
 
 		bool hasNativeEffectPart(NativeEffectPart part) override;
+
 	private:
 
 	protected:

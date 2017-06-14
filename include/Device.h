@@ -2,8 +2,8 @@
 #define KEYBOARD_CLASS
 
 #include <iostream>
-#include <vector>
 #include <unordered_map>
+#include <vector>
 #include <linux/input.h>
 
 #if defined(hidapi)
@@ -11,7 +11,6 @@
 #elif defined(libusb)
 	#include "libusb-1.0/libusb.h"
 #endif
-
 
 class LedDevice {
 	
@@ -46,45 +45,45 @@ class LedDevice {
 
 		typedef std::vector<LEDValue> LEDValueArray;
 
-		bool isOpen();
-		bool isSupported(uint16_t vendorID, uint16_t productID);
+		void addGroupAndLEDs(std::string name, std::vector<LED> group);
+		bool close();
+		DeviceInfo getCurrentDevice();
+		std::unordered_map<std::string, std::vector<LED>> getLEDGroups();
+		std::vector<LED> getLEDs();
+		std::vector<DeviceInfo> getSupportedDevices();
+
 #if defined(hidapi)
 		bool initialize(hid_device* handle);
 #elif defined(libusb)
 		bool initialize(libusb_context* context, libusb_device_handle* handle);
 #endif
 
-		DeviceInfo getCurrentDevice();
-		bool close();
-		std::vector<DeviceInfo> getSupportedDevices();
-    std::vector<LED> getLEDs();
-    std::unordered_map<std::string, std::vector<LED>> getLEDGroups();
-	
-		void addGroupAndLEDs(std::string name, std::vector<LED> group);
-		bool setLED(LED led, Color color);
+		bool isOpen();
+		bool isSupported(uint16_t vendorID, uint16_t productID);
 		bool setAllLEDs(Color color);
+		bool setLED(LED led, Color color);
 		bool setLEDGroup(std::string name, Color color);
-		
+
 		virtual bool setLED(LEDValue value) = 0;
 		virtual bool setLEDs(LEDValueArray values) = 0;
 		virtual bool commit() = 0;
-		
+
 	protected:
-	
-		#if defined(hidapi)
+
+#if defined(hidapi)
 			hid_device *m_hidHandle;
-		#elif defined(libusb)
+#elif defined(libusb)
 			bool m_isKernellDetached = false;
-			libusb_device_handle *m_hidHandle;
 			libusb_context *m_ctx = NULL;
-		#endif
-		
+			libusb_device_handle *m_hidHandle;
+#endif
+
 		DeviceInfo currentDevice;
+		std::unordered_map<std::string, std::vector<LED>> LEDGroupMap;
+		std::vector<LED> LEDs;
 		bool m_isOpen = false;
 		std::vector<DeviceInfo> supportedDevices;
-    std::vector<LED> LEDs;
-    std::unordered_map<std::string, std::vector<LED>> LEDGroupMap;
-		
+
 };
 
 #endif

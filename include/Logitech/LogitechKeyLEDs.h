@@ -7,6 +7,9 @@ class LogitechKeyLEDs {
 
 	public:
 
+///////////////
+// LEDs
+///////////////
 		const LedDevice::LED logo = {"logo", 0x0001};
 		const LedDevice::LED badge = {"badge", 0x0002};
 		const LedDevice::LED backlight = {"backlight", 0x0101};
@@ -135,40 +138,18 @@ class LogitechKeyLEDs {
 		const LedDevice::LED alt_right = {"alt_right", 0x04e6};
 		const LedDevice::LED win_right = {"win_right", 0x04e7};
 
-		std::vector<LedDevice::LED> keyGroupLogo = { 
-			logo
+///////////////
+// LED Groups
+///////////////
+		std::vector<LedDevice::LED> keyGroupArrows = {
+			arrow_top,
+			arrow_left,
+			arrow_bottom,
+			arrow_right
 		};
 
 		std::vector<LedDevice::LED> keyGroupBadge = {
 			badge
-		};
-
-		std::vector<LedDevice::LED> keyGroupIndicators = { 
-			caps,
-			num,
-			scroll,
-			game,
-			backlight
-		};
-
-		std::vector<LedDevice::LED> keyGroupMultimedia = { 
-			next,
-			prev,
-			stop,
-			play,
-			mute
-		};
-
-		std::vector<LedDevice::LED> keyGroupGKeys = {
-			g1,
-			g2,
-			g3,
-			g4,
-			g5,
-			g6,
-			g7,
-			g8,
-			g9
 		};
 
 		std::vector<LedDevice::LED> keyGroupFKeys = {
@@ -186,18 +167,6 @@ class LogitechKeyLEDs {
 			f12 
 		};
 
-		std::vector<LedDevice::LED> keyGroupModifiers = {
-			shift_left,
-			ctrl_left,
-			win_left,
-			alt_left,
-			alt_right,
-			win_right,
-			ctrl_right,
-			shift_right,
-			menu
-		};
-
 		std::vector<LedDevice::LED> keyGroupFunctions = {
 			esc,
 			print_screen,
@@ -211,31 +180,24 @@ class LogitechKeyLEDs {
 			page_down
 		};
 
-		std::vector<LedDevice::LED> keyGroupArrows = {
-			arrow_top,
-			arrow_left,
-			arrow_bottom,
-			arrow_right
+		std::vector<LedDevice::LED> keyGroupGKeys = {
+			g1,
+			g2,
+			g3,
+			g4,
+			g5,
+			g6,
+			g7,
+			g8,
+			g9
 		};
 
-		std::vector<LedDevice::LED> keyGroupNumeric = {
-			num_1,
-			num_2,
-			num_3,
-			num_4,
-			num_5,
-			num_6,
-			num_7,
-			num_8,
-			num_9,
-			num_0, 
-			num_dot,
-			num_enter,
-			num_plus,
-			num_minus,
-			num_asterisk,
-			num_slash,
-			num_lock
+		std::vector<LedDevice::LED> keyGroupIndicators = { 
+			caps,
+			num,
+			scroll,
+			game,
+			backlight
 		};
 
 		std::vector<LedDevice::LED> keyGroupKeys = {
@@ -294,6 +256,50 @@ class LogitechKeyLEDs {
 			caps_lock,
 			intl_backslash
 		};
-		
+
+		std::vector<LedDevice::LED> keyGroupLogo = { 
+			logo
+		};
+
+		std::vector<LedDevice::LED> keyGroupMultimedia = { 
+			next,
+			prev,
+			stop,
+			play,
+			mute
+		};
+
+		std::vector<LedDevice::LED> keyGroupModifiers = {
+			shift_left,
+			ctrl_left,
+			win_left,
+			alt_left,
+			alt_right,
+			win_right,
+			ctrl_right,
+			shift_right,
+			menu
+		};
+
+		std::vector<LedDevice::LED> keyGroupNumeric = {
+			num_1,
+			num_2,
+			num_3,
+			num_4,
+			num_5,
+			num_6,
+			num_7,
+			num_8,
+			num_9,
+			num_0, 
+			num_dot,
+			num_enter,
+			num_plus,
+			num_minus,
+			num_asterisk,
+			num_slash,
+			num_lock
+		};
+
 };
 #endif

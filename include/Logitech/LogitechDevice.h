@@ -5,10 +5,6 @@
 
 class LogitechDevice : public LedDevice {
 	public:
-		enum class StartupMode : uint8_t {
-			wave = 0x01,
-			color
-		};
 
 		enum class NativeEffect : uint8_t {
 			color = 0x01,
@@ -24,21 +20,29 @@ class LogitechDevice : public LedDevice {
 			keys = 0x00,
 			logo
 		};
+
+		enum class StartupMode : uint8_t {
+			wave = 0x01,
+			color
+		};
+
 		bool setNativeEffect(NativeEffect effect, NativeEffectPart part, uint8_t speed, Color color);
 		bool setStartupMode(StartupMode startupMode);
 
-		virtual bool setMRKey(uint8_t value) = 0;
-		virtual bool setMNKey(uint8_t value) = 0;
 		virtual bool setGKeysMode(uint8_t value) = 0;
+		virtual bool setMNKey(uint8_t value) = 0;
+		virtual bool setMRKey(uint8_t value) = 0;
 
 	private:
 
 	protected:
+		typedef std::vector<unsigned char> byte_buffer_t;
+
 		uint8_t nativeEffectProtocolByte;
 
-		typedef std::vector<unsigned char> byte_buffer_t;
 		bool sendDataInternal(byte_buffer_t &data);
-    virtual bool hasNativeEffectPart(NativeEffectPart part) = 0;
+
+		virtual bool hasNativeEffectPart(NativeEffectPart part) = 0;
 };
 
 #endif
