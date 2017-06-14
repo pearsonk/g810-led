@@ -12,6 +12,7 @@
 #endif
 
 // Logitech classes
+#include "Logitech/Devices/LogitechG213.h"
 #include "Logitech/Devices/LogitechG410.h"
 #include "Logitech/Devices/LogitechG810.h"
 
@@ -22,6 +23,7 @@ std::vector<LedDevice*> LedDeviceFactory::getInstances() {
 	// Add device instances here
 	devices.push_back(new LogitechG410());
 	devices.push_back(new LogitechG810());
+	devices.push_back(new LogitechG213());
 
 	return devices;
 }
