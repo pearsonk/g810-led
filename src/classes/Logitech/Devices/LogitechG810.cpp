@@ -59,14 +59,6 @@ bool LogitechG810::setGKeysMode(uint8_t) {
   return false;
 }
 
-bool LogitechG810::setStartupMode(StartupMode startupMode) {
-	byte_buffer_t data;
-	data = { 0x11, 0xff, 0x0d, 0x5a, 0x00, 0x01 };
-	data.push_back((unsigned char)startupMode);
-	data.resize(20, 0x00);
-	return sendDataInternal(data);
-}
-
 bool LogitechG810::hasNativeEffectPart(NativeEffectPart part) {
   switch (part) {
     case NativeEffectPart::keys:

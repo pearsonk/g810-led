@@ -42,22 +42,18 @@ class LogitechPerKeyLED : public LogitechDevice, public LogitechKeyLEDs {
     Key getKey(std::string ledName);
 		bool setLEDs(LEDValueArray keyValues) override;
 		bool setLED(LEDValue keyValue) override;
-		bool setNativeEffect(NativeEffect effect, NativeEffectPart part, uint8_t speed, Color color) override;
 		bool commit() override;
 
 	private:
 
 	protected:
 
-		uint8_t nativeEffectProtocolByte;
 
 		byte_buffer_t getKeyGroupAddress(KeyAddressGroup keyAddressGroup);
 
 		virtual void getSortedKeys(LEDValueArray keyValues, std::vector<std::vector<LEDValue>>& sortedKeys) = 0;
 
-		bool sendDataInternal(byte_buffer_t &data) override;
-    virtual bool hasNativeEffectPart(NativeEffectPart part) = 0;
-    void addGroupAndLEDs(std::string name, std::vector<LED> group);
+		virtual bool hasNativeEffectPart(NativeEffectPart part) = 0;
 
 };
 

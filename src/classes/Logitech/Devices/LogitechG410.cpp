@@ -8,7 +8,7 @@ LogitechG410::LogitechG410() {
 		device.productID=0xc330;
 	supportedDevices.push_back(device);
 
-  nativeEffectProtocolByte = 0x0d;
+	nativeEffectProtocolByte = 0x0d;
 
 	addGroupAndLEDs("F-Keys", LogitechKeyLEDs::keyGroupFKeys);
 	addGroupAndLEDs("Modifiers", LogitechKeyLEDs::keyGroupModifiers);
@@ -45,14 +45,6 @@ void LogitechG410::getSortedKeys(LogitechPerKeyLED::LEDValueArray values, std::v
 bool LogitechG410::setGKeysMode(uint8_t)
 {
 	return false;
-}
-
-bool LogitechG410::setStartupMode(StartupMode startupMode) {
-	byte_buffer_t data;
-	data = { 0x11, 0xff, 0x0d, 0x5a, 0x00, 0x01 };
-	data.push_back((unsigned char)startupMode);
-	data.resize(20, 0x00);
-	return sendDataInternal(data);
 }
 
 bool LogitechG410::hasNativeEffectPart(NativeEffectPart part) {

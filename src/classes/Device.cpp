@@ -48,6 +48,13 @@ bool LedDevice::setLED(LED led, Color color) {
 	return setLED(singleLED);
 }
 
+void LedDevice::addGroupAndLEDs(std::string name, std::vector<LED> group) {
+	LEDGroupMap.insert({name, group});
+	for (auto led : group) {
+		LEDs.push_back(led);
+	}
+}
+
 bool LedDevice::isSupported(uint16_t vendorID, uint16_t productID) {
 	for (unsigned int index=0; index<supportedDevices.size(); index++) {
 		DeviceInfo supportedDevice = supportedDevices.at(index);

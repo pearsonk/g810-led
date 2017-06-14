@@ -24,18 +24,20 @@ class LogitechDevice : public LedDevice {
 			keys = 0x00,
 			logo
 		};
+		bool setNativeEffect(NativeEffect effect, NativeEffectPart part, uint8_t speed, Color color);
+		bool setStartupMode(StartupMode startupMode);
 
 		virtual bool setMRKey(uint8_t value) = 0;
 		virtual bool setMNKey(uint8_t value) = 0;
 		virtual bool setGKeysMode(uint8_t value) = 0;
-		virtual bool setNativeEffect(NativeEffect effect, NativeEffectPart part, uint8_t speed, Color color) = 0;
-		virtual bool setStartupMode(StartupMode startupMode) = 0;
 
 	private:
 
 	protected:
+		uint8_t nativeEffectProtocolByte;
+
 		typedef std::vector<unsigned char> byte_buffer_t;
-		virtual bool sendDataInternal(byte_buffer_t &data) = 0;
+		bool sendDataInternal(byte_buffer_t &data);
     virtual bool hasNativeEffectPart(NativeEffectPart part) = 0;
 };
 

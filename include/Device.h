@@ -60,6 +60,7 @@ class LedDevice {
     std::vector<LED> getLEDs();
     std::unordered_map<std::string, std::vector<LED>> getLEDGroups();
 	
+		void addGroupAndLEDs(std::string name, std::vector<LED> group);
 		bool setLED(LED led, Color color);
 		bool setAllLEDs(Color color);
 		bool setLEDGroup(std::string name, Color color);
